@@ -7,7 +7,7 @@ GRANT ALL privileges to Master ;
 
 Connect Master/psw;
 
--- 2) tables creation
+-- 3) tables creation
 
 CREATE TABLE TypeAeroport
 (

@@ -1,13 +1,8 @@
--- TP1
-
--- 1)-Settings
 Create User Master  Identified by psw;
 
 GRANT ALL privileges to Master ;
 
 Connect Master/psw;
-
--- 3) tables creation
 
 CREATE TABLE TypeAeroport
 (

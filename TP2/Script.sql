@@ -1,15 +1,9 @@
--- TP2
-
---  Remplir la table typeAeroport
     insert into TypeAeroport values(1,'Nationale');
     insert into TypeAeroport values(2,'Internationale');
 
---  Remplir la table TypeCompagnie
     insert into TypeCompagnie values(1,'Etatique');
     insert into TypeCompagnie values(2,'Privée');
 
---  on remplit le reste en utilisant un code PL/SQL 
---  Remplir la table TypeCompagnie
     DECLARE
          v char(10);
          i number;
@@ -21,8 +15,7 @@
         commit;
     end;
     /
-    
---  Remplir la table Pilote
+
     DECLARE
          v char(10);
          w char(10);
@@ -37,7 +30,6 @@
     end;
     /
 
---  Remplir la table Constructeur
     DECLARE
          v char(10);
          i number;
@@ -50,7 +42,6 @@
     end;
     /
 
---  Remplir la table Ville
     DECLARE
          v char(10);
          w number;
@@ -65,7 +56,6 @@
     end;
     /
 
---  Remplir la table Modele
     DECLARE
          v char(10);
          w number;
@@ -80,7 +70,6 @@
     end;
     /
 
---  Remplir la table Avion
     DECLARE
          w number;
          i number;
@@ -93,7 +82,6 @@
     end;
     /
 
---  Remplir la table Compagnie
     DECLARE
          v char(10);
          w number;
@@ -110,7 +98,6 @@
     end;
     /
 
---  Remplir la table Aeroport
     DECLARE
          v char(10);
          w number;
@@ -127,7 +114,6 @@
     end;
     /
 
---  Remplir la table vol
     DECLARE
         dr int;
         tp int;

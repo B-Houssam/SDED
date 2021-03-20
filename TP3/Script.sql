@@ -1,17 +1,11 @@
-
----TP3
---activer le plan d’exécution
 set autotrace on;
---activer le calcule du temps
+
 set timing on;
---en cas d'erreur : 
---SP2-0618: Cannot find the Session Identifier. Check PLUSTRACE role is
---enabled , executer les instruction suivantes :
+
  connect SYS AS SYSDBA
  @?/sqlplus/admin/plustrce.sql
  grant plustrace to public
 
--- modifier deux lignes de la table pays
 Update pays 
 Set NomPays = 'Algerie'
 where codePays = 100;
@@ -20,7 +14,6 @@ Update pays
 Set NomPays = 'Suede'
 where codePays = 50;
 
--- R1
 select unique v.NumVol, v.datevol
 from Vol v , Aeroport a1 , Aeroport a2 , Ville vl1 , Ville vl2 , Pays p1 , Pays p2
 where v.NumAerDep = a1.NumAer 
@@ -32,7 +25,6 @@ and a2.CodeVille = vl2.CodeVille
 and vl2.CodePays = p2.CodePays
 and (p2.NomPays = 'Algerie' or p2.NomPays = 'Suede');
 
--- creation du vue materializé
 
 CREATE MATERIALIZED VIEW VM1
     BUILD IMMEDIATE REFRESH COMPLETE ON DEMAND
@@ -46,13 +38,9 @@ CREATE MATERIALIZED VIEW VM1
     and a2.CodeVille = vl2.CodeVille
     and vl2.CodePays = p2.CodePays;
 
--- vider le buffer
 alter system flush shared_pool;
 alter system flush buffer_cache;
 
--- reexcution de R1
-
--- R2
 set autotrace on ;
 set timing on ;
 select count(*) as NBVol, to_char(DateVol,'YYYY')
@@ -63,7 +51,6 @@ order by  to_char(DateVol,'YYYY');
 alter system flush shared_pool;
 alter system flush buffer_cache;
 
--- creation de VM2
 CREATE MATERIALIZED VIEW VM2 
 BUILD IMMEDIATE REFRESH COMPLETE ON DEMAND
 ENABLE QUERY REWRITE AS
@@ -72,9 +59,6 @@ from vol
 group by  to_char(DateVol,'YYYY')
 order by  to_char(DateVol,'YYYY');
 
--- reexcution R2
-
--- augmenter le nombre des instance a 1200000
 
     DECLARE
         dr int;
@@ -109,11 +93,9 @@ order by  to_char(DateVol,'YYYY');
         commit;
     end;
     /
--- supprimer VM2
-drop materialized view vm2;
--- vider le buffer reexecuter R2
 
---recreer VM2
+drop materialized view vm2;
+
 CREATE MATERIALIZED VIEW VM2 
 BUILD IMMEDIATE REFRESH COMPLETE ON DEMAND
 ENABLE QUERY REWRITE AS
@@ -122,16 +104,11 @@ from vol
 group by  to_char(DateVol,'YYYY')
 order by  to_char(DateVol,'YYYY');
 
--- rafraichir la table
 execute DBMS_MVIEW.REFRESH('VM2');
--- reexecuter R2
 
--- vider le cache
 alter system flush shared_pool;
 alter system flush buffer_cache;
 
-
--- augmenter le nombre des instance a 2000000
     DECLARE
         dr int;
         tp int;
@@ -166,12 +143,8 @@ alter system flush buffer_cache;
     end;
     /
 
--- supprimer VM2
 drop materialized view vm2;
 
--- vider le buffer et reexecuter R2
-
---recreer VM2
 CREATE MATERIALIZED VIEW VM2 
 BUILD IMMEDIATE REFRESH COMPLETE ON DEMAND
 ENABLE QUERY REWRITE AS
@@ -180,10 +153,7 @@ from vol
 group by  to_char(DateVol,'YYYY')
 order by  to_char(DateVol,'YYYY');
 
--- rafraichir la table
 execute DBMS_MVIEW.REFRESH('VM2');
--- reexecuter R2
 
--- vider le cache
 alter system flush shared_pool;
 alter system flush buffer_cache;
